@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>القرآن الكريم - حفظ القرآن | مصحف بن عفان</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #F5F7FB;
+      font-family: 'Inter', sans-serif;
+      color: #1C1E24;
+      line-height: 1.4;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app-screen {
+      width: 100%;
+      min-height: 100vh;
+      background: #FFFFFF;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .page-container {
+      width: 100%;
+      min-height: 100vh;
+      background: #FFFFFF;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      background: #FFFFFF;
+      display: none;
+      flex-direction: column;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .app-header {
+      background: linear-gradient(135deg, #0B2F4E 0%, #1A5A7A 100%);
+      padding: 24px 20px 20px 20px;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .quran-logo {
+      background: #F9D56E;
+      width: 60px;
+      height: 60px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .quran-logo i {
+      font-size: 38px;
+      color: #0B2F4E;
+    }
+
+    .app-title h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #F9E0A0;
+      letter-spacing: -0.3px;
+      margin-bottom: 4px;
+    }
+
+    .app-title .arabic-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFE5B4;
+      direction: rtl;
+    }
+
+    .publisher-info {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 12px 16px;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .publisher-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .publisher-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #F9D56E;
+      letter-spacing: 0.5px;
+    }
+
+    .publisher-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .production-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .production-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #F9E0A0;
+      direction: rtl;
+      text-align: right;
+    }
+
+    .production-name-en {
+      font-size: 12px;
+      font-weight: 500;
+      color: #FFE5B4;
+    }
+
+    .hero-feature {
+      margin: 20px 20px 16px 20px;
+      background: linear-gradient(135deg, #FEF9E8 0%, #FFF8EC 100%);
+      border-radius: 32px;
+      padding: 28px 24px 28px 24px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(212, 175, 106, 0.2);
+    }
+
+    .feature-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #2C6E2F20;
+      padding: 6px 14px;
+      border-radius: 40px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2C6E2F;
+    }
+
+    .main-title {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      color: #1E2F3A;
+    }
+
+    .main-title span {
+      color: #2C7A4D;
+      background: linear-gradient(120deg, #E8F3E8, transparent);
+      padding: 0 4px;
+    }
+
+    .feature-description {
+      font-size: 16px;
+      color: #4A5568;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .highlight-box {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 16px 18px;
+      margin: 20px 0 12px 0;
+      border: 1px solid #E8E2D0;
+    }
+
+    .highlight-box p {
+      font-size: 15px;
+      font-weight: 500;
+      color: #2D4A3B;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .highlight-box i {
+      font-size: 22px;
+      color: #B87333;
+      margin-top: 2px;
+    }
+
+    .features-section {
+      padding: 8px 20px 24px 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #1E2A3A;
+      border-right: 3px solid #D4AF6A;
+      padding-right: 12px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .feature-card {
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 16px 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 0 0 1px #EDF2F7;
+      transition: all 0.2s ease;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .feature-icon {
+      background: #F1F5F9;
+      width: 52px;
+      height: 52px;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px auto;
+    }
+
+    .feature-icon i {
+      font-size: 28px;
+      color: #2C6E2F;
+    }
+
+    .feature-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1F2A3E;
+    }
+
+    .feature-card p {
+      font-size: 12px;
+      color: #6C757D;
+      line-height: 1.35;
+    }
+
+    .repeat-feature-card {
+      background: #F2F6F0;
+      margin: 0 20px 20px 20px;
+      border-radius: 24px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      border: 1px solid #DCE5D4;
+      cursor: pointer;
+    }
+
+    /* New Reciters Section - Under Sufi Library */
+    .reciters-main-section {
+      padding: 8px 20px 24px 20px;
+      background: #FFFFFF;
+    }
+
+    .reciters-main-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #1E2A3A;
+    }
+
+    .reciters-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .reciter-card {
+      background: linear-gradient(135deg, #F8F9FC, #FFFFFF);
+      border-radius: 20px;
+      padding: 14px;
+      border: 1px solid #E8EDF2;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .reciter-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      border-color: #D4AF6A;
+    }
+
+    .reciter-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .reciter-avatar {
+      background: #2C7A4D20;
+      width: 48px;
+      height: 48px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .reciter-avatar i {
+      font-size: 24px;
+      color: #2C7A4D;
+    }
+
+    .reciter-name {
+      flex: 1;
+    }
+
+    .reciter-name h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1F2A3E;
+      margin-bottom: 4px;
+    }
+
+    .reciter-name p {
+      font-size: 11px;
+      color: #B87333;
+    }
+
+    .play-btn {
+      background: #F1F5F9;
+      border: none;
+      border-radius: 30px;
+      padding: 8px 12px;
+      width: 100%;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: 0.2s;
+      color: #2C7A4D;
+    }
+
+    .play-btn:hover {
+      background: #2C7A4D;
+      color: white;
+    }
+
+    .mp3-hint {
+      font-size: 9px;
+      color: #9CA3AF;
+      text-align: center;
+      margin-top: 6px;
+      font-family: monospace;
+      background: #F5F7FB;
+      padding: 4px 6px;
+      border-radius: 8px;
+    }
+
+    .simple-footer {
+      margin: 16px 20px 32px 20px;
+      padding: 16px 0 12px 0;
+      border-top: 1px solid #EFF2F6;
+      text-align: center;
+      font-size: 12px;
+      color: #9CA3AF;
+    }
+
+    .footer-credit {
+      font-size: 11px;
+      color: #B87333;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* Azkar Page Styles */
+    .azkar-page-header {
+      background: linear-gradient(135deg, #2C7A4D, #1E5A3A);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .back-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      color: white;
+      transition: 0.2s;
+    }
+
+    .azkar-page-header h2 {
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .azkar-buttons-container {
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .azkar-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #F4A261, #E76F51);
+      border: none;
+      border-radius: 28px;
+      padding: 14px 20px;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: 0.2s;
+    }
+
+    .azkar-btn:last-child {
+      background: linear-gradient(135deg, #2C7A4D, #1E5A3A);
+    }
+
+    .azkar-content {
+      padding: 0 20px 20px 20px;
+    }
+
+    .azkar-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .azkar-item {
+      background: #FEF9F0;
+      border-radius: 20px;
+      padding: 18px;
+      border-right: 4px solid #2C7A4D;
+    }
+
+    .azkar-arabic {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1E2F3A;
+      margin-bottom: 10px;
+      direction: rtl;
+      line-height: 1.6;
+    }
+
+    .azkar-translation {
+      font-size: 13px;
+      color: #6C757D;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .azkar-count {
+      display: inline-block;
+      background: #E8EDF2;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #2C7A4D;
+    }
+
+    .azkar-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: #9CA3AF;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 16px;
+      padding: 16px 20px;
+      background: white;
+      border-top: 1px solid #EFF2F6;
+      position: sticky;
+      bottom: 0;
+    }
+
+    .nav-btn {
+      flex: 1;
+      background: #F1F5F9;
+      border: none;
+      border-radius: 28px;
+      padding: 12px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: 0.2s;
+      color: #1F2A3E;
+    }
+
+    .nav-btn.active {
+      background: #2C7A4D;
+      color: white;
+    }
+
+    @media (max-width: 480px) {
+      .main-title { font-size: 24px; }
+      .azkar-arabic { font-size: 16px; }
+      .nav-btn { font-size: 13px; padding: 10px; }
+      .reciters-grid { gap: 10px; }
+      .reciter-name h4 { font-size: 13px; }
+      .play-btn { font-size: 11px; padding: 6px 10px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-screen">
+  <div class="page-container">
+    <!-- Main Page -->
+    <div id="mainPage" class="page active">
+      <div class="app-header">
+        <div class="header-top">
+          <div class="quran-logo">
+            <i class="fas fa-book-quran"></i>
+          </div>
+          <div class="app-title">
+            <h1>القرآن الكريم · Al-Quran</h1>
+            <div class="arabic-name">مصحف المدينة المنورة</div>
+          </div>
+        </div>
+        <div class="publisher-info">
+          <div class="publisher-row">
+            <span class="publisher-label"><i class="fas fa-user-edit"></i> الناشر / Publisher</span>
+            <span class="publisher-name">Ahmad & Aliyu</span>
+          </div>
+          <div class="production-row">
+            <span class="publisher-label"><i class="fas fa-building"></i> الإنتاج / Production</span>
+            <div style="text-align: right;">
+              <div class="production-name">مصحف بن عفان</div>
+              <div class="production-name-en">Bin Affan's Mushaf</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-feature">
+        <div class="feature-badge">
+          <i class="fas fa-mosque"></i>
+          <span>مصحف المدينة | خاصية ذكية</span>
+        </div>
+        <div class="main-title">
+          مع خاصتي <span>التكرار المترابط</span><br>
+          وإخفاء الآيات
+        </div>
+        <div class="feature-description">
+          تقنية مبتكرة لحفظ القرآن الكريم: إعادة الآيات بشكل متتابع ذكي، وإخفاء تدريجي للآيات المحفوظة لاختبار الحفظ وإتقان التلاوة.
+        </div>
+        <div class="highlight-box">
+          <p>
+            <i class="fas fa-repeat"></i>
+            <span><strong>التكرار المترابط:</strong> يعيد ترديد الآية حسب مستواك حتى تثبت، ثم ينتقل للآية التالية بربط متقن. <br><br>
+            <strong>إخفاء الآيات:</strong> وضع اختبار يخفي كلمات أو آيات كاملة لتحفيز الذاكرة وتقوية الحفظ.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="features-section">
+        <div class="section-title">
+          <i class="fas fa-star-and-crescent"></i>
+          <span>مميزات متكاملة للحفظ والتلاوة</span>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card" data-action="quran-channel">
+            <div class="feature-icon"><i class="fas fa-satellite-dish"></i></div>
+            <h4>قناة القرآن</h4>
+            <p>تبث مباشر وورد يومي وبث حصري لكبار القراء</p>
+          </div>
+          <div class="feature-card" data-action="sufi-library">
+            <div class="feature-icon"><i class="fas fa-book-open"></i></div>
+            <h4>مكتبة صوفية</h4>
+            <p>قوائم تشغيل وابتهالات وأناشيد روحية</p>
+          </div>
+          <div class="feature-card" data-action="khatma">
+            <div class="feature-icon"><i class="fas fa-chart-simple"></i></div>
+            <h4>ختمة القرآن</h4>
+            <p>خطط ختمة ذكية وتذكير يومي مع تتبع الإنجاز</p>
+          </div>
+          <div class="feature-card" data-action="reciters">
+            <div class="feature-icon"><i class="fas fa-microphone-alt"></i></div>
+            <h4>إخراج القراء</h4>
+            <p>أصوات نقية وجودة عالية، إعدادات تلاوة مخصصة</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="repeat-feature-card" data-action="repeat-feature">
+        <div class="repeat-icon">
+          <i class="fas fa-brain"></i>
+        </div>
+        <div class="repeat-text">
+          <h4><i class="fas fa-eye-slash"></i> إخفاء الآيات · اختبار الحفظ</h4>
+          <p>نمط متقدم يخفي الآيات تدريجياً ويعيد عرضها بناءً على نسبة الإتقان. مثالي للحفاظ المتقن للقرآن الكريم.</p>
+        </div>
+      </div>
+
+      <!-- NEW RECITERS SECTION - Under Sufi Library -->
+      <div class="reciters-main-section">
+        <div class="reciters-main-title">
+          <i class="fas fa-head-side-quran"></i>
+          <span>كبار القراء | Reciters</span>
+        </div>
+        <div class="reciters-grid" id="recitersGrid">
+          <!-- Reciter 1 -->
+          <div class="reciter-card" data-reciter="sudais">
+            <div class="reciter-info">
+              <div class="reciter-avatar"><i class="fas fa-user-circle"></i></div>
+              <div class="reciter-name">
+                <h4>عبدالرحمن السديس</h4>
+                <p>Abdul Rahman Al-Sudais</p>
+              </div>
+            </div>
+            <button class="play-btn" data-reciter="sudais">
+              <i class="fas fa-play"></i> تشغيل التلاوة
+            </button>
+            <div class="mp3-hint">
+              <i class="fas fa-folder-open"></i> 📁 ضع الملف هنا: /audio/sudais.mp3
+              <music>
+                <audio src=""></audio>
+              </music>
+            </div>
+          </div>
+          <!-- Reciter 2 -->
+          <div class="reciter-card" data-reciter="afasy">
+            <div class="reciter-info">
+              <div class="reciter-avatar"><i class="fas fa-user-circle"></i></div>
+              <div class="reciter-name">
+                <h4>مشاري العفاسي</h4>
+                <p>Mishary Al-Afasy</p>
+              </div>
+            </div>
+            <button class="play-btn" data-reciter="afasy">
+              <i class="fas fa-play"></i> تشغيل التلاوة
+            </button>
+            <div class="mp3-hint">
+              <i class="fas fa-folder-open"></i> 📁 ضع الملف هنا: /audio/afasy.mp3
+            </div>
+          </div>
+          <!-- Reciter 3 -->
+          <div class="reciter-card" data-reciter="maher">
+            <div class="reciter-info">
+              <div class="reciter-avatar"><i class="fas fa-user-circle"></i></div>
+              <div class="reciter-name">
+                <h4>ماهر المعيقلي</h4>
+                <p>Maher Al-Muaiqly</p>
+              </div>
+            </div>
+            <button class="play-btn" data-reciter="maher">
+              <i class="fas fa-play"></i> تشغيل التلاوة
+            </button>
+            <div class="mp3-hint">
+              <i class="fas fa-folder-open"></i> 📁 ضع الملف هنا: /audio/maher.mp3
+            </div>
+          </div>
+          <!-- Reciter 4 -->
+          <div class="reciter-card" data-reciter="dosari">
+            <div class="reciter-info">
+              <div class="reciter-avatar"><i class="fas fa-user-circle"></i></div>
+              <div class="reciter-name">
+                <h4>ياسر الدوسري</h4>
+                <p>Yasser Al-Dosari</p>
+              </div>
+            </div>
+            <button class="play-btn" data-reciter="dosari">
+              <i class="fas fa-play"></i> تشغيل التلاوة
+            </button>
+            <div class="mp3-hint">
+              <i class="fas fa-folder-open"></i> 📁 ضع الملف هنا: /audio/dosari.mp3
+            </div>
+          </div>
+          <!-- Reciter 5 -->
+          <div class="reciter-card" data-reciter="ghamdi">
+            <div class="reciter-info">
+              <div class="reciter-avatar"><i class="fas fa-user-circle"></i></div>
+              <div class="reciter-name">
+                <h4>سعد الغامدي</h4>
+                <p>Saad Al-Ghamdi</p>
+              </div>
+            </div>
+            <button class="play-btn" data-reciter="ghamdi">
+              <i class="fas fa-play"></i> تشغيل التلاوة
+            </button>
+            <div class="mp3-hint">
+              <i class="fas fa-folder-open"></i>
+            </div>
+          </div>
+          <!-- Reciter 6 -->
+          <div class="reciter-card" data-reciter="basit">
+            <div class="reciter-info">
+              <div class="reciter-avatar"><i class="fas fa-user-circle"></i></div>
+              <div class="reciter-name">
+                <h4>عبدالباسط عبدالصمد</h4>
+                <p>Abdul Basit</p>
+              </div>
+            </div>
+            <button class="play-btn" data-reciter="basit">
+              <i class="fas fa-play"></i> تشغيل التلاوة
+            </button>
+            <div class="mp3-hint">
+              <i class="fas fa-folder-open"></i> 📁 ضع الملف هنا: /audio/basit.mp3
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="simple-footer">
+        <i class="fas fa-book-quran"></i> تطبيق حفظ القرآن · تقنية التكرار المترابط وإخفاء الآيات
+        <div class="footer-credit">
+          <i class="fas fa-certificate"></i> Bin Affan's Mushaf · مصحف بن عفان | Produced by Ahmad & Aliyu
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="nav-btn active" id="homeNavBtn"><i class="fas fa-home"></i> الرئيسية</button>
+        <button class="nav-btn" id="azkarNavBtn"><i class="fas fa-pray"></i> الأذكار</button>
+      </div>
+    </div>
+
+    <!-- Azkar Page -->
+    <div id="azkarPage" class="page">
+      <div class="azkar-page-header">
+        <button class="back-btn" id="backToHomeBtn"><i class="fas fa-arrow-right"></i></button>
+        <h2><i class="fas fa-pray"></i> أذكار المسلم اليومي</h2>
+      </div>
+      
+      <div class="azkar-buttons-container">
+        <button class="azkar-btn" id="morningBtn"><i class="fas fa-sun"></i> أذكار الصباح</button>
+        <button class="azkar-btn" id="eveningBtn"><i class="fas fa-moon"></i> أذكار المساء</button>
+      </div>
+      
+      <div class="azkar-content" id="azkarDisplay">
+        <div class="azkar-empty">
+          <i class="fas fa-hand-peace" style="font-size: 48px; margin-bottom: 12px; display: block; color: #D4AF6A;"></i>
+          <p>اختر أذكار الصباح أو المساء لعرضها</p>
+        </div>
+      </div>
+      
+      <div class="nav-buttons">
+        <button class="nav-btn" id="homeNavBtn2"><i class="fas fa-home"></i> الرئيسية</button>
+        <button class="nav-btn active" id="azkarNavBtn2"><i class="fas fa-pray"></i> الأذكار</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const morningAzkar = [
+      { arabic: "اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ", translation: "O Allah, by Your leave we have reached the morning", count: "مرة واحدة" },
+      { arabic: "أَصْبَحْنَا عَلَى فِطْرَةِ الإِسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ", translation: "We have entered the morning upon the natural religion of Islam", count: "مرة واحدة" },
+      { arabic: "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ", translation: "O Allah, I bear witness before You", count: "مرة واحدة" },
+      { arabic: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ", translation: "Allah is sufficient for me", count: "7 مرات" },
+      { arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ", translation: "In the name of Allah, nothing can harm", count: "3 مرات" },
+      { arabic: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا", translation: "I am pleased with Allah as Lord", count: "3 مرات" }
+    ];
+
+    const eveningAzkar = [
+      { arabic: "اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ", translation: "O Allah, by Your leave we have reached the evening", count: "مرة واحدة" },
+      { arabic: "أَمْسَيْنَا عَلَى فِطْرَةِ الإِسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ", translation: "We have entered the evening upon the natural religion of Islam", count: "مرة واحدة" },
+      { arabic: "اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ", translation: "O Allah, I bear witness before You", count: "مرة واحدة" },
+      { arabic: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ", translation: "Allah is sufficient for me", count: "7 مرات" },
+      { arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ", translation: "In the name of Allah, nothing can harm", count: "3 مرات" },
+      { arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذِهِ اللَّيْلَةِ", translation: "O Allah, I ask You for the good of this night", count: "مرة واحدة" }
+    ];
+
+    function renderAzkar(azkarArray) {
+      const container = document.getElementById('azkarDisplay');
+      if (!azkarArray.length) {
+        container.innerHTML = '<div class="azkar-empty"><i class="fas fa-pray"></i><p>لا توجد أذكار</p></div>';
+        return;
+      }
+      let html = '<div class="azkar-list">';
+      azkarArray.forEach(item => {
+        html += `
+          <div class="azkar-item">
+            <div class="azkar-arabic">${item.arabic}</div>
+            <div class="azkar-translation">${item.translation}</div>
+            <span class="azkar-count"><i class="fas fa-repeat"></i> ${item.count}</span>
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    function showPage(pageId) {
+      document.getElementById('mainPage').classList.remove('active');
+      document.getElementById('azkarPage').classList.remove('active');
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    // Navigation
+    document.getElementById('azkarNavBtn').addEventListener('click', () => showPage('azkarPage'));
+    document.getElementById('azkarNavBtn2').addEventListener('click', () => showPage('azkarPage'));
+    document.getElementById('homeNavBtn').addEventListener('click', () => showPage('mainPage'));
+    document.getElementById('homeNavBtn2').addEventListener('click', () => showPage('mainPage'));
+    document.getElementById('backToHomeBtn').addEventListener('click', () => showPage('mainPage'));
+    
+    // Azkar buttons
+    document.getElementById('morningBtn').addEventListener('click', () => renderAzkar(morningAzkar));
+    document.getElementById('eveningBtn').addEventListener('click', () => renderAzkar(eveningAzkar));
+
+    // Feature cards
+    const featureCards = document.querySelectorAll('.feature-card, .repeat-feature-card');
+    featureCards.forEach(card => {
+      card.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const title = this.querySelector('h4')?.innerText || 'الميزة';
+        showToast(`✨ ${title} - قريباً في التطبيق ✨`);
+      });
+    });
+
+    // Reciter buttons with MP3 path instructions
+    const reciterCards = document.querySelectorAll('.reciter-card');
+    reciterCards.forEach(card => {
+      const playBtn = card.querySelector('.play-btn');
+      const reciterName = card.querySelector('.reciter-name h4')?.innerText || 'القارئ';
+      
+      playBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Show toast with instructions for adding MP3
+        showToast(`🎙️ ${reciterName}\n📁 أضف ملف MP3 في المسار:\n/audio/${card.dataset.reciter}.mp3`);
+        
+        // Log to console for VS Code reference
+        console.log(`%c📍 MP3 Location Required: /audio/${card.dataset.reciter}.mp3`, 'color: #2C7A4D; font-size: 12px; font-weight: bold;');
+        console.log(`%c📝 Instructions: Add ${reciterName}'s recitation MP3 file to the "audio" folder in your project directory`, 'color: #B87333; font-size: 11px;');
+      });
+    });
+
+    function showToast(message) {
+      const existing = document.querySelector('.custom-toast');
+      if(existing) existing.remove();
+      const toast = document.createElement('div');
+      toast.className = 'custom-toast';
+      toast.innerHTML = `<i class="fas fa-quran"></i> ${message.replace(/\n/g, '<br>')}`;
+      toast.style.position = 'fixed';
+      toast.style.bottom = '80px';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%)';
+      toast.style.backgroundColor = '#1E2F3A';
+      toast.style.color = '#F7E9C3';
+      toast.style.padding = '12px 20px';
+      toast.style.borderRadius = '16px';
+      toast.style.fontWeight = '600';
+      toast.style.fontSize = '12px';
+      toast.style.zIndex = '1000';
+      toast.style.background = '#1E2F3Ae6';
+      toast.style.border = '1px solid #D4AF6A';
+      toast.style.fontFamily = 'Inter, monospace';
+      toast.style.maxWidth = '85%';
+      toast.style.textAlign = 'center';
+      toast.style.lineHeight = '1.4';
+      document.body.appendChild(toast);
+      setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2500);
+    }
+  })();
+</script>
+</body>
+</html>
